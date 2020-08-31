@@ -1,15 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using UserService.Data;
+using UserService.Data.DAL;
+using UserService.Data.Models;
 
 namespace TeleHealth.User_Service
 {
@@ -25,6 +25,29 @@ namespace TeleHealth.User_Service
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = Configuration["Jwt:Issuer"],
+            ValidAudience = Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+        };
+    });
+            services.AddScoped<ITokenHandler, UserService.Data.TokenHandler>();
+            services.AddScoped<IPatientsDAL,PatientsDAL>();
+            services.AddScoped<IDoctorsDAL,DoctorsDAL>();
+            services.AddScoped<IUserDAL,UserDAL>();
+
+            services.Configure<UsersDBSettings>(
+        Configuration.GetSection(nameof(UsersDBSettings)));
+            services.AddSingleton<IUsersDBSettings>(provider =>
+                provider.GetRequiredService<IOptions<UsersDBSettings>>().Value);
             services.AddControllers();
         }
 
@@ -35,6 +58,7 @@ namespace TeleHealth.User_Service
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseAuthentication();
 
             app.UseHttpsRedirection();
 
