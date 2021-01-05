@@ -10,9 +10,9 @@ namespace TeleHealth.User_Service
     {
         public enum Roles
         {
-            Patient = 0,
-            Doctor = 1,
-            Admin = 2
+            Patient,
+            Doctor,
+            Admin
         }
     }
 }

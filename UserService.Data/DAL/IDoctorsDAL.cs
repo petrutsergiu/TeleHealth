@@ -10,5 +10,6 @@ namespace UserService.Data.DAL
         void SaveDoctorDetails(DoctorDetails doctor);
         void UpdateDoctorDetails(DoctorDetails doctor);
         List<DoctorDetails> GetAllDoctorsByFilter(DoctorSearchModel doctorSearchModel);
+        List<DoctorDetails> GetAll();
     }
 }

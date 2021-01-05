@@ -25,6 +25,8 @@ namespace TeleHealth.User_Service
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -40,9 +42,9 @@ namespace TeleHealth.User_Service
         };
     });
             services.AddScoped<ITokenHandler, UserService.Data.TokenHandler>();
-            services.AddScoped<IPatientsDAL,PatientsDAL>();
-            services.AddScoped<IDoctorsDAL,DoctorsDAL>();
-            services.AddScoped<IUserDAL,UserDAL>();
+            services.AddScoped<IPatientsDAL, PatientsDAL>();
+            services.AddScoped<IDoctorsDAL, DoctorsDAL>();
+            services.AddScoped<IUserDAL, UserDAL>();
 
             services.Configure<UsersDBSettings>(
         Configuration.GetSection(nameof(UsersDBSettings)));
@@ -58,6 +60,12 @@ namespace TeleHealth.User_Service
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(builder => builder
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
+
             app.UseAuthentication();
 
             app.UseHttpsRedirection();

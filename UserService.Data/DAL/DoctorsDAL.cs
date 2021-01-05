@@ -16,7 +16,7 @@ namespace UserService.Data.DAL
             var database = client.GetDatabase(settings.DatabaseName);
             _doctors = database.GetCollection<DoctorDetails>(settings.DoctorsCollectionName);
         }
-        public List<DoctorDetails> GetAll()
+        List<DoctorDetails> IDoctorsDAL.GetAll()
         {
             return _doctors.Find(s => true).ToList();
         }

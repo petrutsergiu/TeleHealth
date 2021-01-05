@@ -12,7 +12,7 @@ using UserService.Data.Models;
 
 namespace TeleHealth.User_Service.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("[controller]")]
     public class UserDetailsController : ControllerBase
@@ -96,6 +96,20 @@ namespace TeleHealth.User_Service.Controllers
             {
                 var response = new ResponseModel(_doctors.GetAllDoctorsByFilter(doctorSearchModel));
                 return new JsonResult(response);
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(new ResponseModel(ex.Message, false));
+            }
+        }
+
+        [HttpGet("GetAll")]
+        public JsonResult GetAll()
+        {
+            try
+            {
+                var response = new ResponseModel();
+                return new JsonResult(_doctors.GetAll());
             }
             catch (Exception ex)
             {

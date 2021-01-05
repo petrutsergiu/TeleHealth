@@ -28,7 +28,7 @@ namespace user_service.Controllers
         [HttpGet("GetUserRoles")]
         public JsonResult GetUserRoles()
         {
-            return new JsonResult(new ResponseModel(Enum.GetValues(typeof(Roles))));
+            return new JsonResult(Roles.Admin.ToString());
         }
 
 
