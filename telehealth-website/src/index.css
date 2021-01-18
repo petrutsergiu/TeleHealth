@@ -11,3 +11,14 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.testies {
+  background-color: blue;
+}
+
+.testies1{
+  margin: auto;
+  text-align: left;
+  background-color: blue;
+  padding-left: 100px;
+}

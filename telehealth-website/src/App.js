@@ -1,27 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import axios from 'axios'
+import Card from './UiCard'
+import MediaCard from './MediaCard'
+import Container from '@material-ui/core/Container';
+import Authenticator from './components/authentication';
+import { InlineWidget } from "react-calendly";
+import UploadFiles from './components/authentication/UploadFiles';
 
+const App = () => {
+  const [username, setUsername] = useState();
 
-function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <header>
+      <Container fixed>
+        <InlineWidget url="https://calendly.com/telehealth123" />
+        <Authenticator setUsername={setUsername}>
+          <div className="testies1">
+            <h1>Welcome {username}</h1>
+          </div>
+          <UploadFiles />
+          <Card />
+        </Authenticator>
+      </Container>
+    </header>
+
   );
 }
+
 
 export default App;

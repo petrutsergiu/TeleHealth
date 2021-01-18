@@ -12,7 +12,7 @@ using UserService.Data.Models;
 
 namespace TeleHealth.User_Service.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class UserDetailsController : ControllerBase

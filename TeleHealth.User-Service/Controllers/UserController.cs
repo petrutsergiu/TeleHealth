@@ -25,12 +25,6 @@ namespace user_service.Controllers
             _tokenHandler = tokenHandler;
             _user = user;
         }
-        [HttpGet("GetUserRoles")]
-        public JsonResult GetUserRoles()
-        {
-            return new JsonResult(Roles.Admin.ToString());
-        }
-
 
         [HttpPost("SignUpUser")]
         public JsonResult SignUpUser(User user)
@@ -39,6 +33,9 @@ namespace user_service.Controllers
             try
             {
                 _user.CreateUser(user);
+                User dbUser = _user.LoginUser(user.Username, user.Password);
+                response.Content = dbUser;
+                response.Token = _tokenHandler.GenerateToken(dbUser.Id, dbUser.Role);
             }
             catch (Exception ex)
             {
@@ -53,6 +50,7 @@ namespace user_service.Controllers
             try
             {
                 User dbUser = _user.LoginUser(user.Username, user.Password);
+                response.Content = dbUser;
                 response.Token = _tokenHandler.GenerateToken(dbUser.Id, dbUser.Role);
             }
             catch (Exception ex)
