@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import request from '../../helpers/request';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
@@ -14,13 +14,12 @@ const LoginPage = (props) => {
         console.log('username:', username, password);
         const user = { username, password };
 
-        axios.post(`http://localhost:49836/User/LoginUser`, user)
-            .then(res => {
-                console.log(res);
-                console.log(res.data);
-                if (res.data !== '')
-                    onLogin(res.data.content);
-            })
+        request({
+            url: `User/LoginUser`,
+            method: 'post',
+            data: user,
+            port : 49836,
+        }).then((res) => onLogin(res.content));
     }
 
     const handleChange = (setter) => (e) => {

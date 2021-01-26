@@ -7,21 +7,23 @@ import Container from '@material-ui/core/Container';
 import Authenticator from './components/authentication';
 import { InlineWidget } from "react-calendly";
 import UploadFiles from './components/authentication/UploadFiles';
+import Agora from "./components/agora/Agora"
+import ViewDocuments from './components/user/ViewDocuments'
+import {LoggedUserProvider} from './components/LoggedUser'
+import WelcomePage from './components/user/WelcomePage'
 
 const App = () => {
-  const [username, setUsername] = useState();
 
   return (
     <header>
       <Container fixed>
-        <InlineWidget url="https://calendly.com/telehealth123" />
-        <Authenticator setUsername={setUsername}>
-          <div className="testies1">
-            <h1>Welcome {username}</h1>
-          </div>
-          <UploadFiles />
-          <Card />
-        </Authenticator>
+        <LoggedUserProvider>
+          <Authenticator >
+            <WelcomePage />
+            <UploadFiles />
+            <ViewDocuments />
+          </Authenticator>
+        </LoggedUserProvider>
       </Container>
     </header>
 

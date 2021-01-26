@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 
-namespace TeleHealth.User_Service
+namespace UserService.Data
 {
     public static class Enums
     {

@@ -8,6 +8,6 @@ namespace UserService.Data.DAL
     public interface IUserDAL
     {
         void CreateUser(User user);
-        User LoginUser(string username, string password);
+        User LoginUser(User user);
     }
 }

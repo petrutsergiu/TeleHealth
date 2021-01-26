@@ -25,7 +25,7 @@ namespace UserService.Data
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-            new Claim(ClaimTypes.NameIdentifier,userId),
+            new Claim("UserId",userId),
             new Claim("Role",userRole)
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),

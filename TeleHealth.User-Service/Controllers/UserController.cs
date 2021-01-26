@@ -6,7 +6,6 @@ using TeleHealth.User_Service.Models;
 using UserService.Data;
 using UserService.Data.DAL;
 using UserService.Data.Models;
-using static TeleHealth.User_Service.Enums;
 
 namespace user_service.Controllers
 {
@@ -33,7 +32,7 @@ namespace user_service.Controllers
             try
             {
                 _user.CreateUser(user);
-                User dbUser = _user.LoginUser(user.Username, user.Password);
+                User dbUser = _user.LoginUser(user);
                 response.Content = dbUser;
                 response.Token = _tokenHandler.GenerateToken(dbUser.Id, dbUser.Role);
             }
@@ -49,7 +48,7 @@ namespace user_service.Controllers
             ResponseModel response = new ResponseModel("Login successfully.", true);
             try
             {
-                User dbUser = _user.LoginUser(user.Username, user.Password);
+                User dbUser = _user.LoginUser(user);
                 response.Content = dbUser;
                 response.Token = _tokenHandler.GenerateToken(dbUser.Id, dbUser.Role);
             }

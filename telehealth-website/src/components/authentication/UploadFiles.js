@@ -1,31 +1,42 @@
 import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import request from '../../helpers/request';
+import { TextareaAutosize } from '@material-ui/core';
 
 const UploadFiles = (props) => {
-    const [files,setFiles] = useState();
+    const [file, setDoc] = useState();
+    const [fileDescription, setFileDesc] = useState('');
 
     const onClickHandler = () => {
         const data = new FormData()
-        for (var x = 0; x < files.length; x++) {
-            data.append('files', files[x]);
-        }
-         request({
-            url:'Consultance/UploadFiles',
-            method:'post',
-            data:data,
-            port : 60717,
-        }) 
+        data.append('file', file);
+        data.append('description', fileDescription);
+        console.log(data);
+        request({
+            url: 'Consultance/UploadFiles',
+            method: 'post',
+            data: data,
+            port: 60717,
+        })
     }
 
-    const onChangeHandler = event => {
-        setFiles(event.target.files);
-        console.log(files);
+    const handleChange = (setter) => (e) => {
+        console.log(e.target.files);
+        setter(e.target.files[0]);
+        console.log(file);
+    }
+
+    const onTextChange = event => {
+        setFileDesc(event.target.value);
     }
 
     return (
         <div>
-            <input type="file" name="file" multiple onChange={onChangeHandler} />
+            <label>
+                Please select file to upload and add a description for it
+            </label>
+            <TextareaAutosize aria-label="minimum height" rowsMin={3} onChange={onTextChange} />
+            <input type="file" name="doc" onChange={handleChange(setDoc)} />
             <Button
                 color='primary'
                 type='submit' onClick={onClickHandler}>

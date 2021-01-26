@@ -1,10 +1,15 @@
+using ConsultanceService.DAL;
+using ConsultanceService.DAL.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using System.IO;
 using System.Text;
 
 namespace TeleHealth.Consultance_Service
@@ -23,6 +28,9 @@ namespace TeleHealth.Consultance_Service
         {
             services.AddCors();
 
+            services.AddDbContext<TeleHealthContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+            services.AddScoped<IPatientRepository, PatientRepository>();
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -38,6 +46,7 @@ namespace TeleHealth.Consultance_Service
         };
     });
             services.AddControllers();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,7 +65,12 @@ namespace TeleHealth.Consultance_Service
             app.UseAuthentication();
 
             app.UseHttpsRedirection();
-
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                        Path.Combine(env.ContentRootPath, "UserDocuments")),
+                RequestPath = "/UserDocuments"
+            });
             app.UseRouting();
 
             app.UseAuthorization();

@@ -13,7 +13,7 @@ namespace TeleHealth.User_Service
             var accessToken = token.Replace("Bearer ", string.Empty);
             var handler = new JwtSecurityTokenHandler();
             var decodedToken = handler.ReadJwtToken(accessToken);
-            return decodedToken.Claims.First(f => f.Type == "nameid").Value;
+            return decodedToken.Claims.First(f => f.Type == "UserId").Value;
         }
     }
 }

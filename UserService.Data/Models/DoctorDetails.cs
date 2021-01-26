@@ -16,7 +16,7 @@ namespace UserService.Data.Models
         public string LastName { get; set; }
         public string Email { get; set; }
         public int Age { get; set; }
-        public char Sex { get; set; }
+        public char Gender { get; set; }
         public string Language { get; set; }
         public string Location { get; set; }
         public float YearsExperience { get; set; }
@@ -24,7 +24,7 @@ namespace UserService.Data.Models
         public string Certificates { get; set; }
         public string Speciality { get; set; }
         public string Rating { get; set; }
-        public float Tarrifs { get; set; }
+        public string Tariffs { get; set; }
         public string Nationality { get; set; }
 
 
