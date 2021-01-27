@@ -11,19 +11,30 @@ import Agora from "./components/agora/Agora"
 import ViewDocuments from './components/user/ViewDocuments'
 import {LoggedUserProvider} from './components/LoggedUser'
 import WelcomePage from './components/user/WelcomePage'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 const App = () => {
 
   return (
     <header>
       <Container fixed>
+        <Router>
         <LoggedUserProvider>
           <Authenticator >
-            <WelcomePage />
-            <UploadFiles />
-            <ViewDocuments />
+            <Switch>
+              <Route path="/" component={WelcomePage} exact/>
+              <Route path="/UploadFiles" component={UploadFiles}/>
+              <Route path="/ViewDocuments" component={ViewDocuments}/>
+            </Switch>
+            
           </Authenticator>
         </LoggedUserProvider>
+        </Router>
       </Container>
     </header>
 

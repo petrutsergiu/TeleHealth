@@ -6,6 +6,8 @@ import DoctorDetails from '../user/DoctorDetails';
 import {useLoggedUserState} from '../LoggedUser';
 
 
+
+
 const Authenticator = (props) => {
 
     const {user, setUser} = useLoggedUserState();
