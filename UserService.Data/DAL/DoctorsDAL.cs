@@ -62,5 +62,9 @@ namespace UserService.Data.DAL
             return _doctors.Find<DoctorDetails>(filter).ToList();
         }
 
+        DoctorDetails IDoctorsDAL.GetDoctorByCredentialId(string userId)
+        {
+            return _doctors.Find<DoctorDetails>(s => s.CredentialsId == userId).FirstOrDefault();
+        }
     }
 }

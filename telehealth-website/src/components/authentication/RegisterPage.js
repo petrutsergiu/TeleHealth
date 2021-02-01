@@ -23,6 +23,7 @@ const RegisterPage = (props) => {
             data: user,
             port : 49836,
         }).then((res) => onLogin(res.content));
+        
     }
 
     const handleChange = (setter) => (e) => {

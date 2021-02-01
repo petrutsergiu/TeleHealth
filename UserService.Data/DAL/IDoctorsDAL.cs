@@ -11,5 +11,6 @@ namespace UserService.Data.DAL
         void UpdateDoctorDetails(DoctorDetails doctor);
         List<DoctorDetails> GetAllDoctorsByFilter(DoctorSearchModel doctorSearchModel);
         List<DoctorDetails> GetAll();
+        DoctorDetails GetDoctorByCredentialId(string userId);
     }
 }

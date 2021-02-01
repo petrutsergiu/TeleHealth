@@ -2,12 +2,17 @@ import React, { useState } from 'react';
 import request from '../../helpers/request';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { useHistory } from "react-router-dom";
+import { useLoggedUserState } from '../LoggedUser';
+
 
 const LoginPage = (props) => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const { gotoRegister, onLogin } = props;
+    const history = useHistory();
+    const { user, setUser } = useLoggedUserState();
+
 
     const handleClick = (e, ...params) => {
         e.preventDefault();
@@ -19,7 +24,15 @@ const LoginPage = (props) => {
             method: 'post',
             data: user,
             port : 49836,
-        }).then((res) => onLogin(res.content));
+        }).then((res) => {
+            setUser(res.content);
+            history.push('/')
+        });
+
+    }
+
+    const gotoRegister = () =>{
+        history.push('/Register');
     }
 
     const handleChange = (setter) => (e) => {

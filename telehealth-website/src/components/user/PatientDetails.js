@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import { useHistory } from "react-router-dom";
 
 const PatientDetails = (props) => {
 
@@ -15,6 +16,8 @@ const PatientDetails = (props) => {
     const [gender, setGender] = useState();
     const [language, setLanguage] = useState();
 
+    const history = useHistory();
+    const {onSave} = props;
 
     const handleChange = (setter) => (e) => {
         setter(e.target.value);
@@ -29,7 +32,7 @@ const PatientDetails = (props) => {
             method: 'post',
             data: patientDetails,
             port: 49836,
-        })
+        }).then(()=> onSave('y'));
     }
 
 

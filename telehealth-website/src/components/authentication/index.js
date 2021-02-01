@@ -5,9 +5,6 @@ import PatientDetails from '../user/PatientDetails';
 import DoctorDetails from '../user/DoctorDetails';
 import {useLoggedUserState} from '../LoggedUser';
 
-
-
-
 const Authenticator = (props) => {
 
     const {user, setUser} = useLoggedUserState();
@@ -15,13 +12,14 @@ const Authenticator = (props) => {
     const [authStep, setAuthStep] = useState('login');
     console.log(user);
     console.log(authStep);
+    const [compl,setComplted] = useState();
 
    if (user && user.username) {
         console.log(user);
-        if (user.role == 'Patient' && !user.completedAccount)
-            return <PatientDetails />
-        else if (user.role == 'Doctor' && !user.completedAccount)
-            return <DoctorDetails />
+        if (user.role == 'Patient' && !user.completedAccount && !compl)
+            return <PatientDetails onSave={setComplted} />
+        else if (user.role == 'Doctor' && !user.completedAccount && !compl)
+            return <DoctorDetails onSave={setComplted} />
         else
             return children;
 

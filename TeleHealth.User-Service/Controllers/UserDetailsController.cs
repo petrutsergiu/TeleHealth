@@ -103,18 +103,36 @@ namespace TeleHealth.User_Service.Controllers
             }
         }
 
-        [HttpGet("GetAll")]
-        public JsonResult GetAll()
+        [HttpGet("GetAllDoctors")]
+        public JsonResult GetAllDoctors()
         {
             try
             {
                 var response = new ResponseModel();
-                return new JsonResult(_doctors.GetAll());
+                response.Content = _doctors.GetAll();
+                return new JsonResult(response);
             }
             catch (Exception ex)
             {
                 return new JsonResult(new ResponseModel(ex.Message, false));
             }
+        }
+
+        [HttpGet("GetDoctorDetails")]
+        public JsonResult GetDoctorDetails()
+        {
+            ResponseModel response = new ResponseModel();
+            try
+            {
+                string userId = Helper.GetUserIdFromToken(Request.Headers[HeaderNames.Authorization].ToString());
+                var doctorDetails = _doctors.GetDoctorByCredentialId(userId);
+                response.Content = doctorDetails;
+            }
+            catch (Exception ex)
+            {
+                response = new ResponseModel(ex.Message, false);
+            }
+            return new JsonResult(response);
         }
 
 
