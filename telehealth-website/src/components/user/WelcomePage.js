@@ -6,6 +6,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import DoctorDetails from './DoctorDetails';
 import ViewDoctors from './ViewDoctors'
+import Agora from '../agora/Agora'
 
 const WelcomePage = () => {
   const { user, setUser } = useLoggedUserState();
@@ -70,6 +71,7 @@ const WelcomePage = () => {
           <br></br>
           <br></br>
           <ViewDoctors />
+          <Agora/>
         </div>
       )
     }
@@ -90,6 +92,7 @@ const WelcomePage = () => {
           <br></br>
           <br></br>
           <ViewDoctors />
+          <Agora/>
         </div>
       )
     }

@@ -1,10 +1,22 @@
 import Card from '@material-ui/core/Card';
 import React, { useState, useEffect } from 'react';
 import request from '../../helpers/request';
+import SchedulerComponent from '../scheduler/SchedulerComponent';
 
 const ViewDoctors = (props) => {
 
     const [doctors, setDoctors] = useState([]);
+    const [selectedDoctor, setSelectedDoctor] = useState();
+    const handleCardOnClick = (e) =>{
+        console.log('click on card');
+        const clickedId = e.currentTarget.id;
+        console.log(clickedId);
+        const doctor = doctors.find((item) =>{
+            return item.id === clickedId;
+        });
+        console.log(doctor);
+        setSelectedDoctor(doctor);
+    }
 
     useEffect(() => {
         request({
@@ -18,7 +30,7 @@ const ViewDoctors = (props) => {
     return (
         <div>
             {doctors && doctors.map((item, index) => (
-                <Card >
+                <Card key={index} id={item.id} onClick={handleCardOnClick} >
                     {item.firstName} {item.lastName}
                     <br />
                    Age {item.age}  Gender {item.gender}  YearsOfExperience {item.yearsExperience}
@@ -26,6 +38,7 @@ const ViewDoctors = (props) => {
                     {item.speciality}
                 </Card>
             ))}
+            { selectedDoctor && (<SchedulerComponent selectedDoctor={selectedDoctor}/>)} 
         </div>
     )
 }

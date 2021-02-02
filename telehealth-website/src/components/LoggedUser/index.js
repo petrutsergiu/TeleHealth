@@ -8,9 +8,12 @@ const LoggedUserStateContext = createContext();
 
 function LoggedUserProvider({ children }) {
   const [user, setUser] = useState({});
+  const values = {
+    user,setUser
+  }
 
   return (
-    <LoggedUserStateContext.Provider value={{user,setUser}}>
+    <LoggedUserStateContext.Provider value={values}>
         {children}
     </LoggedUserStateContext.Provider>
   );
