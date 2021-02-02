@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import request from '../../helpers/request';
+import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Box from '@material-ui/core/Box';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
 import { useHistory } from "react-router-dom";
 import { useLoggedUserState } from '../LoggedUser';
 
@@ -40,35 +44,55 @@ const LoginPage = (props) => {
     }
 
     return (
-        <div>
-            <form onSubmit={handleClick}>
-                <TextField
-                    type='text'
-                    name='username'
-                    label='Username'
-                    fullWidth
-                    required
-                    value={username}
-                    onChange={handleChange(setUsername)} />
-                <TextField
-                    type='password'
-                    name='password'
-                    label='Password'
-                    fullWidth
-                    required
-                    value={password}
-                    onChange={handleChange(setPassword)} />
-                <Button
-                    color='primary'
-                    type='submit'>
-                    Login
-            </Button>
-            </form>
-            <Button onClick={gotoRegister}>
-                Register
-        </Button>
-        </div>
-    )
+      <Container maxWidth="sm">
+        <Paper>
+          <Box p={3}>
+              <form onSubmit={handleClick}>
+                  <Grid container direction="column" spacing={3}>
+                      <Grid item>
+                          <TextField
+                              type='text'
+                              name='username'
+                              label='Username'
+                              fullWidth
+                              required
+                              value={username}
+                              onChange={handleChange(setUsername)}
+                          />
+                      </Grid>
+                      <Grid item>
+                          <TextField
+                              type='password'
+                              name='password'
+                              label='Password'
+                              fullWidth
+                              required
+                              value={password}
+                              onChange={handleChange(setPassword)}
+                          />
+                      </Grid>
+                      <Grid container item justify="space-around">
+                          <Grid item>
+                              <Button
+                                  color='primary'
+                                  type='submit'
+                                  variant="contained"
+                              >
+                                  Login
+                              </Button>
+                          </Grid>
+                          <Grid item>
+                              <Button onClick={gotoRegister}>
+                                  Register
+                              </Button>
+                          </Grid>
+                      </Grid>
+                  </Grid>
+              </form>
+          </Box>
+        </Paper>
+      </Container>
+    );
 }
 
 export default LoginPage;
