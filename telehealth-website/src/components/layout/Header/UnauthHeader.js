@@ -1,8 +1,11 @@
 import React from 'react';
+import Link from '@material-ui/core/Link';
 
 const UnauthHeader = (props) => (
   <>
-  Login
+    <Link href="/Login" color="inherit">
+      Login
+    </Link>
   </>
 );
 
