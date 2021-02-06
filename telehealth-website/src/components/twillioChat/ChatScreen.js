@@ -16,6 +16,17 @@ import { Send } from "@material-ui/icons";
 import axios from "axios";
 import ChatItem from "./ChatItem";
 const Chat = require("twilio-chat");
+const AccessToken = require('twilio').jwt.AccessToken;
+const VideoGrant = AccessToken.VideoGrant;
+
+// Used when generating any kind of tokens
+const twilioAccountSid = 'AC2e4c3906aa86d5d7c89ca3aaacbb459e';
+//const twilioAccountSid = 'AC1804900ff250020a71db2124816345bc';
+
+const twilioApiKey = 'SKe70b32a68e3f369fdcae518a2f27c764';
+const twilioApiSecret = 'dvmLH7HjjSh62s0GHu8bgnmrmenRogLp';
+
+const identity = 'cacat';
 
 class ChatScreen extends React.Component {
   constructor(props) {
@@ -31,18 +42,7 @@ class ChatScreen extends React.Component {
     this.scrollDiv = React.createRef();
   }
 
-  getToken = async (email) => {
-    const AccessToken = require('twilio').jwt.AccessToken;
-    const VideoGrant = AccessToken.VideoGrant;
-
-    // Used when generating any kind of tokens
-    const twilioAccountSid = 'AC2e4c3906aa86d5d7c89ca3aaacbb459e';
-    //const twilioAccountSid = 'AC1804900ff250020a71db2124816345bc';
-
-    const twilioApiKey = 'SKe70b32a68e3f369fdcae518a2f27c764';
-    const twilioApiSecret = 'dvmLH7HjjSh62s0GHu8bgnmrmenRogLp';
-
-    const identity = 'cacat';
+  getToken = (email) => {
 
     // Create Video Grant
     const videoGrant = new VideoGrant({
