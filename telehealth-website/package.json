@@ -20,7 +20,10 @@
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scheduler-calendar": "^0.4.12-7",
-    "react-scripts": "3.4.3"
+    "react-scripts": "3.4.3",
+    "twilio": "^3.55.1",
+    "twilio-chat": "^4.1.0",
+    "twilio-video": "^2.11.0"
   },
   "scripts": {
     "start": "react-scripts start",
