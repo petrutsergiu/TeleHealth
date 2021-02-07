@@ -6,8 +6,6 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import DoctorDetails from './DoctorDetails';
 import ViewDoctors from './ViewDoctors'
-import Agora from '../agora/Agora'
-import TwilioChat from '../twillioChat/TwilioChat'
 
 const WelcomePage = () => {
   const { user, setUser } = useLoggedUserState();
@@ -15,7 +13,7 @@ const WelcomePage = () => {
   const history = useHistory();
 
   const handleProfileClose = () => {
-    history.push('/ws')
+    history.push('/VideoCall')
     setAnchorEl(null);
   };
   const handleMyAccountClose = () => {
@@ -33,11 +31,9 @@ const WelcomePage = () => {
 
   const handleClick = (e) => {
     if (e.currentTarget.id == 'SignUp') {
-      console.log('reg baa');
       history.push('/Registration')
     }
     else if (e.currentTarget.id == 'SignIn') {
-      console.log('log baa');
       history.push('/Login')
     }
   }
@@ -72,7 +68,6 @@ const WelcomePage = () => {
           <br></br>
           <br></br>
           <br></br>
-          <TwilioChat/>
           <ViewDoctors />
         </div>
       )

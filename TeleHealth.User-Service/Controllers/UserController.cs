@@ -60,31 +60,5 @@ namespace user_service.Controllers
             }
             return new JsonResult(response);
         }
-        [HttpGet("GetTwilioToken")]
-        public JsonResult GetTwillioToken()
-        {
-            // These values are necessary for any access token
-            const string twilioAccountSid = "AC2e4c3906aa86d5d7c89ca3aaacbb459e";
-            const string twilioApiKey = "SKe70b32a68e3f369fdcae518a2f27c764";
-            const string twilioApiSecret = "dvmLH7HjjSh62s0GHu8bgnmrmenRogLp";
-
-            const string identity = "user";
-
-            // Create a Video grant for this token
-            var grant = new VideoGrant();
-            grant.Room = "cool room";
-
-            var grants = new HashSet<IGrant> { grant };
-
-            // Create an Access Token generator
-            var token = new Token(
-                twilioAccountSid,
-                twilioApiKey,
-                twilioApiSecret,
-                identity,
-                grants: grants);
-
-            return new JsonResult(new ResponseModel() { Content = token.ToJwt() });
-        }
     }
 }

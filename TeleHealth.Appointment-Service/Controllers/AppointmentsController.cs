@@ -23,19 +23,38 @@ namespace TeleHealth.Appointment_Service.Controllers
             _appRepo = appRepo;
         }
 
-        [HttpGet("GetAppointments")]
-        public JsonResult GetAppointments(string doctorId)
+        [HttpPost("GetAppointments")]
+        public JsonResult GetAppointments(Appointment appointment)
         {
             ResponseModel response = new ResponseModel();
             try
             {
-                response.Content = _appRepo.GetAppointments(doctorId);
+                var appointments = _appRepo.GetAppointments(appointment.DoctorId);
+                response.Content = ConvertToModel(appointments);
             }
             catch (Exception ex)
             {
                 response = new ResponseModel(ex.Message, false);
             }
             return new JsonResult(response);
+        }
+
+        private List<AppointmentModel> ConvertToModel(List<Appointment> appointments)
+        {
+            List<AppointmentModel> result = new List<AppointmentModel>();
+            appointments.ForEach(a =>
+            {
+                result.Add(new AppointmentModel()
+                {
+                    AllDay = a.AllDay,
+                    AppointmentId = a.AppointmentId,
+                    DoctorId = a.DoctorId,
+                    From = a.From,
+                    Title = a.Title,
+                    To = a.To
+                });
+            });
+            return result;
         }
 
         [HttpPost("SaveAppointments")]

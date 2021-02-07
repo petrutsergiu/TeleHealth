@@ -17,16 +17,12 @@ import axios from "axios";
 import ChatItem from "./ChatItem";
 const Chat = require("twilio-chat");
 const AccessToken = require('twilio').jwt.AccessToken;
-const VideoGrant = AccessToken.VideoGrant;
+const ChatGrant = AccessToken.ChatGrant;
 
 // Used when generating any kind of tokens
 const twilioAccountSid = 'AC2e4c3906aa86d5d7c89ca3aaacbb459e';
-//const twilioAccountSid = 'AC1804900ff250020a71db2124816345bc';
-
 const twilioApiKey = 'SKe70b32a68e3f369fdcae518a2f27c764';
 const twilioApiSecret = 'dvmLH7HjjSh62s0GHu8bgnmrmenRogLp';
-
-const identity = 'cacat';
 
 class ChatScreen extends React.Component {
   constructor(props) {
@@ -45,8 +41,13 @@ class ChatScreen extends React.Component {
   getToken = (email) => {
 
     // Create Video Grant
-    const videoGrant = new VideoGrant({
-      room: 'cacat room',
+    const serviceSid = 'ISb89db07d223544a392d8519a91ccca7e';
+    const identity = 'user@example.com';
+    
+    // Create a "grant" which enables a client to use Chat as a given user,
+    // on a given device
+    const chatGrant = new ChatGrant({
+      serviceSid: serviceSid,
     });
 
     // Create an access token which we will sign and return to the client,
@@ -57,7 +58,7 @@ class ChatScreen extends React.Component {
       twilioApiSecret,
       { identity: identity }
     );
-    token.addGrant(videoGrant);
+    token.addGrant(chatGrant);
 
     return token.toJwt();
   };
@@ -68,9 +69,9 @@ class ChatScreen extends React.Component {
     const { email, room } = state || {};
     let token = "";
 
-    if (!email || !room) {
-      this.props.history.replace("/");
-    }
+    // if (!email || !room) {
+    //   this.props.history.replace("/");
+    // }
 
     this.setState({ loading: true });
 

@@ -4,6 +4,8 @@ import { ViewState, EditingState, IntegratedEditing } from '@devexpress/dx-react
 import {
   Scheduler,
   DayView,
+  WeekView,
+  MonthView,
   Appointments,
   AppointmentForm,
   AppointmentTooltip,
@@ -24,9 +26,9 @@ const SchedulerComponent = (props) => {
   };
   const [data, setData] = useState([]);
   const selectedDoctor = props;
+  const doctorId = selectedDoctor.selectedDoctor.credentialsId;
 
   const saveChanges = (data) => {
-    const doctorId = selectedDoctor.selectedDoctor.credentialsId;
 
     const appointments = data.map((ap) => ({
       appointmentId: ap.id,
@@ -34,7 +36,7 @@ const SchedulerComponent = (props) => {
       to: ap.endDate,
       title: ap.title,
       allday: ap.allDay,
-      notes : ap.notes,
+      notes: ap.notes,
       doctorId: doctorId
     }));
     request({
@@ -45,13 +47,28 @@ const SchedulerComponent = (props) => {
     });
   }
 
-  useEffect(()=>{
+  const covertToData = (dbAppointments) => {
+    const newData = dbAppointments.map((ap) => ({
+      id: ap.appointmentId,
+      startDate: ap.from,
+      endDate: ap.to,
+      title: ap.title,
+      allDay: ap.allDay,
+      notes: ap.notes
+    }));
+    return newData;
+  }
+
+  useEffect(() => {
+    console.log('doftoru',doctorId);
+    let appointment = {doctorId};
     request({
       url: `Appointments/GetAppointments`,
-      method: 'get',
+      method: 'post',
+      data: appointment,
       port: 59562,
-    });
-  },[])
+    }).then((res) => setData(covertToData(res.content)));
+  }, [])
 
 
   const commitChanges = ({ added, changed, deleted }) => {
@@ -87,10 +104,8 @@ const SchedulerComponent = (props) => {
           onCommitChanges={commitChanges}
         />
         <IntegratedEditing />
-        <DayView
-          startDayHour={9}
-          endDayHour={19}
-        />
+        {/* <WeekView startDayHour={9} endDayHour={19} /> */}
+        <MonthView/>
         <ConfirmationDialog />
         <Appointments />
         <AppointmentTooltip
