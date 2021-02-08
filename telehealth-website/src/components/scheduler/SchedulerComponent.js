@@ -20,6 +20,8 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
+import AppointmentTooltipHeader from './AppointmentTooltipHeader';
+
 
 const SchedulerComponent = (props) => {
 
@@ -92,7 +94,7 @@ const SchedulerComponent = (props) => {
     />
   );
 
-  
+
   const onCommitChanges = ({ added, changed, deleted }) => {
     if (added) {
       const startingAddedId = data.length > 0 ? data[data.length - 1].id + 1 : 0;
@@ -160,9 +162,10 @@ const SchedulerComponent = (props) => {
           <AppointmentTooltip
             showOpenButton
             showDeleteButton
+            headerComponent={AppointmentTooltipHeader}
           />
           <AppointmentForm
-          
+
           />
           <Toolbar />
           <DateNavigator />
@@ -175,4 +178,3 @@ const SchedulerComponent = (props) => {
 }
 
 export default SchedulerComponent;
-
