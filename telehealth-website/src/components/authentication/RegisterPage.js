@@ -5,12 +5,16 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 
 import request from '../../helpers/request';
+import { useHistory } from "react-router-dom";
+import { useLoggedUserState } from '../LoggedUser';
 
 const RegisterPage = (props) => {
+    const { user, setUser } = useLoggedUserState();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [role, setRole] = useState('');
-    const { onLogin } = props;
+
+    const history = useHistory();
 
     const handleClick = (e, ...params) => {
         e.preventDefault();
@@ -21,9 +25,17 @@ const RegisterPage = (props) => {
             url: `User/SignUpUser`,
             method: 'post',
             data: user,
-            port : 49836,
-        }).then((res) => onLogin(res.content));
-        
+            port: 49836,
+        }).then((res) => {
+            setUser(res.content);
+            if (role === 'Patient') {
+                history.push('/PatientDetails');
+            }
+            else if (role === 'Doctor') {
+                history.push('/DoctorDetails');
+            }
+        });
+
     }
 
     const handleChange = (setter) => (e) => {

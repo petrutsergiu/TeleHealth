@@ -24,6 +24,9 @@ const twilioAccountSid = 'AC2e4c3906aa86d5d7c89ca3aaacbb459e';
 const twilioApiKey = 'SKe70b32a68e3f369fdcae518a2f27c764';
 const twilioApiSecret = 'dvmLH7HjjSh62s0GHu8bgnmrmenRogLp';
 
+// const ChatScreen () =>{
+  
+// }
 class ChatScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -80,9 +83,7 @@ class ChatScreen extends React.Component {
     } catch {
       throw new Error("unable to get token, please reload this page");
     }
-console.log('aici va crapa',token);
     const client =await Chat.Client.create(token);
-    console.log('aici a crapat');
 
 
     client.on("tokenAboutToExpire", async () => {

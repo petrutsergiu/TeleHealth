@@ -24,7 +24,7 @@ namespace TeleHealth.Appointment_Service.Controllers
         }
 
         [HttpPost("GetAppointments")]
-        public JsonResult GetAppointments(Appointment appointment)
+        public JsonResult GetAppointments(AppointmentModel appointment)
         {
             ResponseModel response = new ResponseModel();
             try
@@ -49,42 +49,49 @@ namespace TeleHealth.Appointment_Service.Controllers
                     AllDay = a.AllDay,
                     AppointmentId = a.AppointmentId,
                     DoctorId = a.DoctorId,
-                    From = a.From,
+                    From = new DateTimeOffset(a.From).ToUnixTimeMilliseconds(),
                     Title = a.Title,
-                    To = a.To
+                    To = new DateTimeOffset(a.To).ToUnixTimeMilliseconds()
                 });
             });
             return result;
         }
 
         [HttpPost("SaveAppointments")]
-        public JsonResult SaveAppointments(List<AppointmentModel> appointments) 
+        public JsonResult SaveAppointments(List<AppointmentModel> appointments)
         {
             ResponseModel response = new ResponseModel("Appointments saved.", true);
             try
             {
                 string userId = Helper.GetUserIdFromToken(Request.Headers[HeaderNames.Authorization].ToString());
-                List<Appointment> result = new List<Appointment>();
-                foreach(AppointmentModel ap in appointments)
-                {
-                    result.Add(new Appointment()
+                    List<Appointment> result = new List<Appointment>();
+                    foreach (AppointmentModel ap in appointments)
                     {
-                        AllDay = ap.AllDay,
-                        AppointmentId = ap.AppointmentId,
-                        DoctorId = ap.DoctorId,
-                        From = ap.From,
-                        PatientId = userId,
-                        Title = ap.Title,
-                        To = ap.To
-                    });
-                }
-                _appRepo.SaveAppointments(result);
+                        result.Add(new Appointment()
+                        {
+                            AllDay = ap.AllDay,
+                            AppointmentId = ap.AppointmentId,
+                            DoctorId = ap.DoctorId,
+                            From = ConvertToDate(ap.From),
+                            PatientId = userId,
+                            Title = ap.Title,
+                            To = ConvertToDate(ap.To)
+                        });
+                    }
+                    _appRepo.SaveAppointments(result);
             }
             catch (Exception ex)
             {
                 response = new ResponseModel(ex.Message, false);
             }
             return new JsonResult(response);
+        }
+
+        private DateTime ConvertToDate(double timestamp)
+        {
+            System.DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+            dtDateTime = dtDateTime.AddMilliseconds(timestamp).ToLocalTime();
+            return dtDateTime;
         }
     }
 }

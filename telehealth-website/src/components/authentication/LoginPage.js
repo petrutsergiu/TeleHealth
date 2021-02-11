@@ -29,6 +29,7 @@ const LoginPage = (props) => {
             data: user,
             port : 49836,
         }).then((res) => {
+            console.log(res.content);
             setUser(res.content);
             history.push('/')
         });
@@ -36,7 +37,7 @@ const LoginPage = (props) => {
     }
 
     const gotoRegister = () =>{
-        history.push('/Register');
+        history.push('/Registration');
     }
 
     const handleChange = (setter) => (e) => {

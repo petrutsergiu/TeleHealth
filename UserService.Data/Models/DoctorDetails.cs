@@ -23,7 +23,8 @@ namespace UserService.Data.Models
         public string Degree { get; set; }
         public string Certificates { get; set; }
         public string Speciality { get; set; }
-        public string Rating { get; set; }
+        public double Rating { get; set; }
+        public int NumberOfRatings { get; set; }
         public string Tariffs { get; set; }
         public string Nationality { get; set; }
 

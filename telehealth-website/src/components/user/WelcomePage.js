@@ -16,6 +16,15 @@ const WelcomePage = () => {
     history.push('/VideoCall')
     setAnchorEl(null);
   };
+
+  const handleViewDocumentsClose = () =>{
+    history.push('/ViewDocuments');
+    setAnchorEl(null);
+  }
+  const handleUploadDocumentsClose = () =>{
+    history.push('/UploadFiles');
+    setAnchorEl(null);
+  }
   const handleMyAccountClose = () => {
     setAnchorEl(null);
     if (user && user.role == 'Patient')
@@ -46,7 +55,7 @@ const WelcomePage = () => {
   };
 
   const isLoggedIn = () => {
-    if (user.id) {
+    if (user && user.id) {
       return (
         <div>
           Welcome {user.username}
@@ -61,6 +70,8 @@ const WelcomePage = () => {
             onClose={handleCloseMenu}
           >
             <MenuItem onClick={handleProfileClose}>Profile</MenuItem>
+            <MenuItem onClick={handleViewDocumentsClose}>View Documents</MenuItem>
+            <MenuItem onClick={handleUploadDocumentsClose}>Upload Documents</MenuItem>
             <MenuItem onClick={handleMyAccountClose}>My account</MenuItem>
             <MenuItem onClick={handleLogOutClose}>Logout</MenuItem>
           </Menu>

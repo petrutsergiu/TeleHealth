@@ -9,6 +9,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import Avatar from '@material-ui/core/Avatar';
 import { red, blue, green } from '@material-ui/core/colors';
+import ViewDoctorDetails from './ViewDoctorDetails';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -34,7 +35,6 @@ const ViewDoctors = (props) => {
         const doctor = doctors.find((item) => {
             return item.id === clickedId;
         });
-        console.log(doctor);
         setSelectedDoctor(doctor);
     }
 
@@ -59,15 +59,15 @@ const ViewDoctors = (props) => {
                                     <CardHeader
                                         avatar={
                                             <Avatar aria-label="recipe">
-                                                R
+                                                MD
                                        </Avatar>
                                         }
-                                        title={item.firstName, item.lastName}
-                                        subheader={"Age", item.age, "Gender", item.gender}
+                                        title={item.firstName}
+                                        subheader={item.lastName}
                                     />
                                     <CardContent>
                                         <Typography variant="body2" color="textSecondary" component="p">
-                                            YearsOfExperience {item.yearsExperience}
+                                            Age {item.age}    Gender {item.gender}
                                         </Typography>
                                         <Typography variant="body2" color="textSecondary" component="p">
                                             {item.speciality}
@@ -79,7 +79,7 @@ const ViewDoctors = (props) => {
                     </Grid>
                 </Grid>
             </Grid>
-            { selectedDoctor && (<SchedulerComponent selectedDoctor={selectedDoctor}/>)} 
+            { selectedDoctor && (<ViewDoctorDetails selectedDoctor={selectedDoctor} setSelectedDoctor={setSelectedDoctor} />)}
         </div>
     )
 }

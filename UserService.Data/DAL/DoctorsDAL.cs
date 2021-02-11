@@ -41,7 +41,7 @@ namespace UserService.Data.DAL
 
         void IDoctorsDAL.UpdateDoctorDetails(DoctorDetails doctor)
         {
-            _doctors.ReplaceOne(s => s.CredentialsId == doctor.CredentialsId, doctor);
+            _doctors.ReplaceOne(s => s.Id == doctor.Id, doctor);
         }
 
         List<DoctorDetails> IDoctorsDAL.GetAllDoctorsByFilter(DoctorSearchModel doctorSearchModel)

@@ -8,10 +8,12 @@ namespace TeleHealth.Appointment_Service.Models
     public class AppointmentModel
     {
         public int AppointmentId { get; set; }
-        public DateTime From { get; set; }
-        public DateTime To { get; set; }
+        public double From { get; set; }
+        public double To { get; set; }
         public string Title { get; set; }
         public bool AllDay { get; set; }
         public string DoctorId {get;set;}
+        public string PatientId { get; set; }
+
     }
 }

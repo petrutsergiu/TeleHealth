@@ -1,11 +1,14 @@
 import React from 'react';
+import {AppointmentTooltip} from '@devexpress/dx-react-scheduler-material-ui'; 
 
-const AppointmentTooltipHeader = ({props}) => {
+const AppointmentTooltipHeader = (props) => {
   console.log('===> APP T Header', props)
+  const {appointmentData} =props;
+  if (appointmentData.fromDB)
+  return null;
+
   return (
-    <div>
-    Header
-    </div>
+    <AppointmentTooltip.Header {...props} />
   )
 };
 

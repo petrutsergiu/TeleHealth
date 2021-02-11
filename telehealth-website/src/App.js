@@ -4,7 +4,6 @@ import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import Authenticator from './components/authentication';
 import Header from './components/layout/Header';
-import UploadFiles from './components/authentication/UploadFiles';
 import ViewDocuments from './components/user/ViewDocuments'
 import ViewDoctors from './components/user/ViewDoctors'
 import { LoggedUserProvider } from './components/LoggedUser'
@@ -15,6 +14,7 @@ import LoginPage from './components/authentication/LoginPage';
 import RegisterPage from './components/authentication/RegisterPage';
 import TwilioChat from './components/twilioChat/TwilioChat'
 import TwilioVideo from './components/twilioVideo/VideoChat'
+import SchedulerComponent from './components/scheduler/SchedulerComponent';
 
 import {
   BrowserRouter as Router,
@@ -42,6 +42,9 @@ const App = () => {
                 <Route path="/DoctorDetails" component={DoctorDetails} />
                 <Route path="/Registration" component={RegisterPage} />
                 <Route path="/Login" component={LoginPage} />
+                <Route path="/Appointments" component={Scheduler} />
+                <Route path="/ViewDocuments" component={ViewDocuments} />
+                <Route path="/ScheduleAppointment" component={SchedulerComponent} />
                 <Route path="/" component={WelcomePage} />
               </Switch>
             </Box>

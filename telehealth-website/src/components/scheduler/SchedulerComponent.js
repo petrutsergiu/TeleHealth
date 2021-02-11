@@ -16,51 +16,37 @@ import {
   TodayButton,
 } from '@devexpress/dx-react-scheduler-material-ui';
 import request from '../../helpers/request';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Typography from '@material-ui/core/Typography';
+import Avatar from '@material-ui/core/Avatar';
 
 import AppointmentTooltipHeader from './AppointmentTooltipHeader';
+import AppointmentComponent from './AppointmentComponent';
+import AppointmentTooltipContent from './AppointmentTooltipContent';
+
+import { useLoggedUserState } from '../LoggedUser';
 
 
 const SchedulerComponent = (props) => {
 
   const [data, setData] = useState([]);
   const [currentDate, setCurrentDateChange] = useState(new Date());
-  const [currentViewName, setCurrentViewName] = useState();
-  const [isAppointmentBeingCreated, setIsAppointmentBeingCreated] = useState(false);
+  const { user, setUser } = useLoggedUserState();
+  console.log(user);
+  const { selectedDoctor } = props.location.state;
+  console.log(selectedDoctor);
+  const doctorId = selectedDoctor.credentialsId;
 
-  const selectedDoctor = props;
-  const doctorId = selectedDoctor.selectedDoctor.credentialsId;
-
-  const ExternalViewSwitcher = ({
-    currentViewName,
-    onChange,
-  }) => (
-    <RadioGroup
-      aria-label="Views"
-      style={{ flexDirection: 'row' }}
-      name="views"
-      value={currentViewName}
-      onChange={onChange}
-    >
-      <FormControlLabel value="Week" control={<Radio />} label="Week" />
-      <FormControlLabel value="Month" control={<Radio />} label="Month" />
-    </RadioGroup>
-  );
-
-  const currentViewNameChange = (e) => {
-    setCurrentViewName(e.target.value);
-  }
   const currentDateChange = (currentDate) => {
     setCurrentDateChange(currentDate);
   }
 
   const saveChanges = (data) => {
-    const appointments = data.map((ap) => ({
+
+    console.log(data);
+    const appointments = data.filter(appointment => appointment.fromDB === undefined).map((ap) => ({
       appointmentId: ap.id,
-      from: ap.startDate,
-      to: ap.endDate,
+      from: Date.parse(ap.startDate),
+      to: Date.parse(ap.endDate),
       title: ap.title,
       allday: ap.allDay,
       notes: ap.notes,
@@ -71,54 +57,50 @@ const SchedulerComponent = (props) => {
       method: 'post',
       data: appointments,
       port: 59562,
+    }).then(() => {
+      setData(data.map((a) => {
+        return (
+          { ...a, fromDB: true }
+        )
+      }))
     });
   }
 
   const covertToData = (dbAppointments) => {
     const newData = dbAppointments.map((ap) => ({
       id: ap.appointmentId,
-      startDate: ap.from,
-      endDate: ap.to,
+      startDate: new Date(ap.from),
+      endDate: new Date(ap.to),
       title: ap.title,
       allDay: ap.allDay,
       notes: ap.notes,
-      disabled: true
+      patientId: ap.patientId,
+      doctorId: ap.doctorId,
+      fromDB: true
     }));
     return newData;
   }
-
-  const timeTableCell = ({ onDoubleClick, ...restProps }) => (
-    <WeekView.TimeTableCell
-      {...restProps}
-      onDoubleClick={!isAppointmentBeingCreated ? onDoubleClick : undefined}
-    />
-  );
-
 
   const onCommitChanges = ({ added, changed, deleted }) => {
     if (added) {
       const startingAddedId = data.length > 0 ? data[data.length - 1].id + 1 : 0;
       setData([...data, { id: startingAddedId, ...added }]);
       saveChanges([...data, { id: startingAddedId, ...added }]);
-      setIsAppointmentBeingCreated(true);
     }
     else if (changed) {
       setData(data.map(appointment => (
         changed[appointment.id] ? { ...appointment, ...changed[appointment.id] } : appointment)));
       saveChanges(data.map(appointment => (
         changed[appointment.id] ? { ...appointment, ...changed[appointment.id] } : appointment)));
-        setIsAppointmentBeingCreated(false);
     }
 
     else if (deleted !== undefined) {
       setData(data.filter(appointment => appointment.id !== deleted));
       saveChanges(data.filter(appointment => appointment.id !== deleted));
-      setIsAppointmentBeingCreated(false);
     }
   };
 
   useEffect(() => {
-    console.log('doftoru', doctorId);
     let appointment = { doctorId };
     request({
       url: `Appointments/GetAppointments`,
@@ -126,23 +108,20 @@ const SchedulerComponent = (props) => {
       data: appointment,
       port: 59562,
     }).then((res) => setData(covertToData(res.content)));
-  }, [])
+  }, [doctorId])
 
   return (
     <div>
-      <ExternalViewSwitcher
-        currentViewName={currentViewName}
-        onChange={currentViewNameChange}
-      />
       <Paper>
-        {selectedDoctor.firstName}
+        <Typography align="center" variant="h4" component="h2">
+          {selectedDoctor.firstName}    {selectedDoctor.lastName}
+        </Typography>
 
         <Scheduler
           data={data}
         >
           <ViewState
             defaultCurrentDate={currentDate}
-            currentViewName={currentViewName}
             onCurrentDateChange={currentDateChange}
           />
           <EditingState
@@ -152,10 +131,11 @@ const SchedulerComponent = (props) => {
           <WeekView
             startDayHour={8}
             endDayHour={19}
-            timeTableCellComponent={timeTableCell}
           />
           <MonthView />
-          <Appointments />
+          <Appointments
+            appointmentComponent={AppointmentComponent}
+          />
           <ConfirmationDialog
             ignoreCancel
           />
@@ -163,6 +143,7 @@ const SchedulerComponent = (props) => {
             showOpenButton
             showDeleteButton
             headerComponent={AppointmentTooltipHeader}
+            contentComponent={AppointmentTooltipContent}
           />
           <AppointmentForm
 

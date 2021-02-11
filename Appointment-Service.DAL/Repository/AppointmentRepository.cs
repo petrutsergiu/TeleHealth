@@ -21,10 +21,6 @@ namespace Appointment_Service.DAL.Repository
 
         void IAppointmentRepository.SaveAppointments(List<Appointment> appointments)
         {
-            var patientId = appointments.First().PatientId;
-            var doctorId = appointments.First().DoctorId;
-            var currentAppointments = _context.Appointments.Where(a => a.PatientId == patientId && a.DoctorId == doctorId);
-            _context.Appointments.RemoveRange(currentAppointments);
             _context.AddRange(appointments);
             _context.SaveChanges();
         }

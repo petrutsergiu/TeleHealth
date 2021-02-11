@@ -2,6 +2,7 @@ import React, { useState, useCallback } from "react";
 import Button from '@material-ui/core/Button';
 import WelcomeScreen from "./WelcomeScreen";
 import ChatScreen from "./ChatScreen";
+import { useLoggedUserState } from '../LoggedUser';
 
 function TwilioChat() {
   const [isChat, setIsChat] = useState(true);
