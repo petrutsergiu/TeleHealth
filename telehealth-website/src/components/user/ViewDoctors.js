@@ -44,7 +44,6 @@ const ViewDoctors = (props) => {
             method: 'get',
             port: 49836,
         }).then((res) => setDoctors(res.content));
-        console.log(doctors)
     }, []);
 
     return (

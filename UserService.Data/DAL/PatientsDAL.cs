@@ -43,5 +43,15 @@ namespace UserService.Data.DAL
         {
             _patients.ReplaceOne(s => s.CredentialsId == patient.CredentialsId, patient);
         }
+
+        PatientDetails IPatientsDAL.GetPatientByCredentialId(string userId)
+        {
+            return _patients.Find<PatientDetails>(s => s.CredentialsId == userId).FirstOrDefault();
+        }
+
+        List<PatientDetails> IPatientsDAL.GetPatients()
+        {
+            return _patients.Find(s => true).ToList();
+        }
     }
 }

@@ -15,19 +15,18 @@ const LoginPage = (props) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const history = useHistory();
-    const { user, setUser } = useLoggedUserState();
+    const { setUser } = useLoggedUserState();
 
 
-    const handleClick = (e, ...params) => {
+    const handleClick = (e) => {
         e.preventDefault();
-        console.log('username:', username, password);
         const user = { username, password };
 
         request({
             url: `User/LoginUser`,
             method: 'post',
             data: user,
-            port : 49836,
+            port: 49836,
         }).then((res) => {
             console.log(res.content);
             setUser(res.content);
@@ -36,7 +35,7 @@ const LoginPage = (props) => {
 
     }
 
-    const gotoRegister = () =>{
+    const gotoRegister = () => {
         history.push('/Registration');
     }
 
@@ -45,54 +44,54 @@ const LoginPage = (props) => {
     }
 
     return (
-      <Container maxWidth="sm">
-        <Paper>
-          <Box p={3}>
-              <form onSubmit={handleClick}>
-                  <Grid container direction="column" spacing={3}>
-                      <Grid item>
-                          <TextField
-                              type='text'
-                              name='username'
-                              label='Username'
-                              fullWidth
-                              required
-                              value={username}
-                              onChange={handleChange(setUsername)}
-                          />
-                      </Grid>
-                      <Grid item>
-                          <TextField
-                              type='password'
-                              name='password'
-                              label='Password'
-                              fullWidth
-                              required
-                              value={password}
-                              onChange={handleChange(setPassword)}
-                          />
-                      </Grid>
-                      <Grid container item justify="space-around">
-                          <Grid item>
-                              <Button
-                                  color='primary'
-                                  type='submit'
-                                  variant="contained"
-                              >
-                                  Login
+        <Container maxWidth="sm">
+            <Paper>
+                <Box p={3}>
+                    <form onSubmit={handleClick}>
+                        <Grid container direction="column" spacing={3}>
+                            <Grid item>
+                                <TextField
+                                    type='text'
+                                    name='username'
+                                    label='Username'
+                                    fullWidth
+                                    required
+                                    value={username}
+                                    onChange={handleChange(setUsername)}
+                                />
+                            </Grid>
+                            <Grid item>
+                                <TextField
+                                    type='password'
+                                    name='password'
+                                    label='Password'
+                                    fullWidth
+                                    required
+                                    value={password}
+                                    onChange={handleChange(setPassword)}
+                                />
+                            </Grid>
+                            <Grid container item justify="space-around">
+                                <Grid item>
+                                    <Button
+                                        color='primary'
+                                        type='submit'
+                                        variant="contained"
+                                    >
+                                        Login
                               </Button>
-                          </Grid>
-                          <Grid item>
-                              <Button onClick={gotoRegister}>
-                                  Register
+                                </Grid>
+                                <Grid item>
+                                    <Button onClick={gotoRegister}>
+                                        Register
                               </Button>
-                          </Grid>
-                      </Grid>
-                  </Grid>
-              </form>
-          </Box>
-        </Paper>
-      </Container>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </form>
+                </Box>
+            </Paper>
+        </Container>
     );
 }
 

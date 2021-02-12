@@ -16,6 +16,7 @@ namespace Appointment_Service.DAL.DAL
         public bool AllDay { get; set; }
         public string PatientId { get; set; }
         public string DoctorId { get; set; }
+        public string Status { get; set; }
 
     }
 }

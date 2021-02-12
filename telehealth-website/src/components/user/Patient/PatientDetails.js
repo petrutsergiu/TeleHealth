@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import request from '../../helpers/request';
+import request from '../../../helpers/request';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import { useHistory } from "react-router-dom";
 
-const PatientDetails = (props) => {
+const PatientDetails = () => {
 
     const [firstName, setFirstName] = useState();
     const [lastName, setLastName] = useState();
@@ -15,9 +15,7 @@ const PatientDetails = (props) => {
     const [location, setLocation] = useState();
     const [gender, setGender] = useState();
     const [language, setLanguage] = useState();
-
     const history = useHistory();
-    const {onSave} = props;
 
     const handleChange = (setter) => (e) => {
         setter(e.target.value);
@@ -26,15 +24,13 @@ const PatientDetails = (props) => {
     const handleClick = (e, ...params) => {
         e.preventDefault();
         const patientDetails = { firstName, lastName, email, age: parseInt(age), location, gender, language };
-        console.log('patientDetails:', patientDetails);
         request({
             url: `UserDetails/SavePatientDetails`,
             method: 'post',
             data: patientDetails,
             port: 49836,
-        }).then(()=> onSave('y'));
+        }).then(() => history.push('/'));
     }
-
 
     return (
         <div>

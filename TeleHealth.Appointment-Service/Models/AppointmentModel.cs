@@ -14,6 +14,6 @@ namespace TeleHealth.Appointment_Service.Models
         public bool AllDay { get; set; }
         public string DoctorId {get;set;}
         public string PatientId { get; set; }
-
+        public string Status { get; set; }
     }
 }

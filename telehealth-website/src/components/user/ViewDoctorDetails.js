@@ -32,18 +32,10 @@ const ViewDoctorDetails = (props) => {
 
     }
     const handleRatingButton = () => {
-        console.log(selectedDoctor);
-        console.log('ratingu selectat de user',rating)
         let currentDoctorRating = selectedDoctor.rating;
-        console.log('Rating curent',currentDoctorRating);
         let numberOfRatings = selectedDoctor.numberOfRatings;
-        console.log('Nr de ratings curenti',numberOfRatings);
         let newRating = ((currentDoctorRating * numberOfRatings) + rating) / (numberOfRatings + 1);
-        console.log('CALCUL 1',(currentDoctorRating * numberOfRatings));
-        console.log('CALCUL 2',(currentDoctorRating * numberOfRatings)+ rating);
-        console.log('noul rating',newRating);
         let updatedDoctor = { ...selectedDoctor, rating: newRating, numberOfRatings: numberOfRatings + 1 };
-        console.log(updatedDoctor);
 
         request({
             url: `UserDetails/UpdateDoctorDetails`,

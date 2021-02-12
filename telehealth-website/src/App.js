@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
-import Authenticator from './components/authentication';
 import Header from './components/layout/Header';
 import ViewDocuments from './components/user/ViewDocuments'
-import ViewDoctors from './components/user/ViewDoctors'
 import { LoggedUserProvider } from './components/LoggedUser'
 import WelcomePage from './components/user/WelcomePage'
-import DoctorDetails from './components/user/DoctorDetails'
-import PatientDetails from './components/user/PatientDetails'
+import DoctorDetails from './components/user/Doctor/DoctorDetails'
+import PatientDetails from './components/user/Patient/PatientDetails'
 import LoginPage from './components/authentication/LoginPage';
 import RegisterPage from './components/authentication/RegisterPage';
 import TwilioChat from './components/twilioChat/TwilioChat'
@@ -19,8 +17,7 @@ import SchedulerComponent from './components/scheduler/SchedulerComponent';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
 
 import Scheduler from './components/scheduler/SchedulerComponent';

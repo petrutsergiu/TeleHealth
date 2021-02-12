@@ -9,5 +9,7 @@ namespace UserService.Data.DAL
     {
         void SavePatientDetails(PatientDetails patient);
         void UpdatePatientDetails(PatientDetails patient);
+        PatientDetails GetPatientByCredentialId(string userId);
+        List<PatientDetails> GetPatients();
     }
 }

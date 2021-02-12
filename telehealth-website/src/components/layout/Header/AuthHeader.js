@@ -24,6 +24,7 @@ const AuthHeader = (props) => {
   }, [push]);
 
   const logout = useCallback(() => {
+    localStorage.setItem('token', '');
     push('/Login');
   }, [push]);
 
@@ -46,7 +47,7 @@ const AuthHeader = (props) => {
       >
         <AccountCircle />
       </IconButton>
-      <Link href="/Login" color="inherit">
+      <Link onClick={logout} color="inherit">
         Logout
       </Link>
     </>

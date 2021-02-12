@@ -39,6 +39,23 @@ namespace TeleHealth.Appointment_Service.Controllers
             return new JsonResult(response);
         }
 
+        [HttpGet("GetAllDoctorAppointments")]
+        public JsonResult GetAllDoctorAppointments()
+        {
+            ResponseModel response = new ResponseModel();
+            try
+            {
+                string userId = Helper.GetUserIdFromToken(Request.Headers[HeaderNames.Authorization].ToString());
+                var appointments = _appRepo.GetAppointments(userId);
+                response.Content = ConvertToModel(appointments);
+            }
+            catch (Exception ex)
+            {
+                response = new ResponseModel(ex.Message, false);
+            }
+            return new JsonResult(response);
+        }
+
         private List<AppointmentModel> ConvertToModel(List<Appointment> appointments)
         {
             List<AppointmentModel> result = new List<AppointmentModel>();
@@ -51,7 +68,9 @@ namespace TeleHealth.Appointment_Service.Controllers
                     DoctorId = a.DoctorId,
                     From = new DateTimeOffset(a.From).ToUnixTimeMilliseconds(),
                     Title = a.Title,
-                    To = new DateTimeOffset(a.To).ToUnixTimeMilliseconds()
+                    To = new DateTimeOffset(a.To).ToUnixTimeMilliseconds(),
+                    Status = a.Status,
+                    PatientId=a.PatientId
                 });
             });
             return result;
@@ -75,7 +94,8 @@ namespace TeleHealth.Appointment_Service.Controllers
                             From = ConvertToDate(ap.From),
                             PatientId = userId,
                             Title = ap.Title,
-                            To = ConvertToDate(ap.To)
+                            To = ConvertToDate(ap.To),
+                            Status=ap.Status
                         });
                     }
                     _appRepo.SaveAppointments(result);
